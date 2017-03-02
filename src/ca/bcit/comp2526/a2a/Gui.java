@@ -30,7 +30,7 @@ public class Gui extends JFrame {
     private Square[][] squares; //squares on board
     private JPanel board = new JPanel(); //panel to display chess board on
     private JButton[][] gridButtons; //used for squares to take input
-    
+    private String defualtTitle;
     /* the colors */
     private Color color1 = Color.decode("#8f0300"); //black
     private Color color2 = Color.decode("#fad481"); //white
@@ -41,6 +41,7 @@ public class Gui extends JFrame {
      */
     public Gui(final String string, int width, int height, final Board board) {
         super(string);
+        defualtTitle = string;
         gameBoard = board;
         screenWidth = width;
         screenHeight = height;
@@ -128,9 +129,14 @@ public class Gui extends JFrame {
         }
     }
     
-    public void updateTitle(String string){
-        setTitle(string);
+    /**
+     * Updates Title of window.
+     * @param string the string to update it to
+     */
+    public void updateTitle(String string) {
+        setTitle(defualtTitle + string);
     }
+    
     /**
      * Gets location and trigger board to perform logic operation.
      * @author Pashan Irani

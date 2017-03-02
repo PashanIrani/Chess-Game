@@ -20,7 +20,8 @@ public class Board {
     private Gui gui; 
     private String selectColor = "#7FFF00"; //color to show current selected piece
     private boolean whiteTurn = true;
-    private String defualtTitle ="Chess Game - Pashan Irani A00997355";
+    private String whiteTurnString = "White TURN";
+    private String blackTurnString = "Black TURN";
     /**
      * Constructor for Board.
      */
@@ -84,9 +85,9 @@ public class Board {
         squares[7][6].setPiece("wH");
         squares[7][7].setPiece("wR");
 
-        gui = new Gui(defualtTitle + " - white turn", 800, 800, this);
+        gui = new Gui("Chess Game - Pashan Irani A00997355", 800, 800, this);
         gui.refreshWindow();
-
+        setTurnTitle();
     }
 
     /**
@@ -189,16 +190,20 @@ public class Board {
     private  void placePiece(String clickedLocation) {
         if (prevPiece.isValidMove(prevId, clickedLocation)) {
             whiteTurn = !whiteTurn;
-            if (whiteTurn) {
-                gui.updateTitle(defualtTitle + " - white turn");
-            } else {
-                gui.updateTitle(defualtTitle + " - black turn");
-            }
+            setTurnTitle();
             System.out.println("placed Piece");
             setPiece(clickedLocation, pickedUpPiece);
             setPiece(prevId, "");
             hasPieceInHand = false;
             refresh();
+        }
+    }
+    
+    private void setTurnTitle() {
+        if (whiteTurn) {
+            gui.updateTitle(" - " + whiteTurnString);
+        } else {
+            gui.updateTitle(" - " + blackTurnString);
         }
     }
     
