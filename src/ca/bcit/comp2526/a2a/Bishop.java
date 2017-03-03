@@ -66,11 +66,21 @@ public class Bishop extends Piece {
     public boolean isValidMove(String currentPosId, String moveToId) {
         int[] currentPos = getX_Y(currentPosId);
         int[] moveTo = getX_Y(moveToId);
-        if (Math.abs(moveTo[0] - currentPos[0]) ==  Math.abs(moveTo[1] - currentPos[1])) {
+        if (Math.abs(moveTo[0] - currentPos[0]) ==  Math.abs(moveTo[1] - currentPos[1]) 
+                && checkIfPathClear(currentPos, moveTo)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    
+    protected boolean checkIfPathClear(int[] currentPos, int[] moveTo) {
+        int stepCountX = moveTo[0] - currentPos[0];
+        int stepCountY = moveTo[1] - currentPos[1];
+        System.out.println("Bishop: " + stepCountX + ", " + stepCountY);
+        return checkInDirectionStraight(stepCountX, getVector(stepCountX), 
+                stepCountX + stepCountY, currentPos, true);
     }
 
 }

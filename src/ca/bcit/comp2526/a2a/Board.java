@@ -11,7 +11,7 @@ public class Board {
      * the number of square from in the x and y axis, forming a square grid.
      */
     public static final int GRIDSIZE = 8;
-    private Square[][] squares; //the square on the  board
+    private static Square[][] squares; //the square on the  board
     private String pickedUpPiece = null; //current picked up piece
     private boolean hasPieceInHand = false; //if player is currently is holding a piece
     private String prevId = ""; //location of last clicked square
@@ -22,6 +22,7 @@ public class Board {
     private boolean whiteTurn = true;
     private String whiteTurnString = "White TURN";
     private String blackTurnString = "Black TURN";
+    private boolean enableTurns = false;
     /**
      * Constructor for Board.
      */
@@ -113,7 +114,7 @@ public class Board {
      * Gets squares from board.
      * @return squares on the board
      */
-    public Square[][] getSqaure() {
+    public static Square[][] getSqaure() {
         return squares;
     }
 
@@ -186,10 +187,12 @@ public class Board {
         }
     }
 
-    
+
     private  void placePiece(String clickedLocation) {
         if (prevPiece.isValidMove(prevId, clickedLocation)) {
-            whiteTurn = !whiteTurn;
+            if (enableTurns) {
+                whiteTurn = !whiteTurn;
+            }
             setTurnTitle();
             System.out.println("placed Piece");
             setPiece(clickedLocation, pickedUpPiece);
@@ -198,7 +201,7 @@ public class Board {
             refresh();
         }
     }
-    
+
     private void setTurnTitle() {
         if (whiteTurn) {
             gui.updateTitle(" - " + whiteTurnString);
@@ -206,7 +209,7 @@ public class Board {
             gui.updateTitle(" - " + blackTurnString);
         }
     }
-    
+
     private void pickUpPeice(int xaxis, int yaxis, String clickedLocation) {
         try {
             if ((whiteTurn && getSquarePiece(clickedLocation).getColor() == "white")
@@ -225,11 +228,16 @@ public class Board {
         }
     }
 
+
     /**
      * Refreshed Window, with peice's new locations.
      */
     public void refresh() {
         gui.drawSquares();
         gui.refreshWindow();
+    }
+    
+    public void resetBoard(){
+        
     }
 }

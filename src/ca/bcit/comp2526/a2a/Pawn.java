@@ -66,37 +66,41 @@ public class Pawn extends Piece {
     public boolean isValidMove(String currentPosId, String moveToId) {
         int[] currentPos = getX_Y(currentPosId);
         int[] moveTo = getX_Y(moveToId);
-        if (canCharge(currentPos)) {
-            if (moveTo[1] == currentPos[1]) {
-                if (moveTo[0] - currentPos[0] >= -2 
-                        && moveTo[0] - currentPos[0] < 0 
-                        && !black) {
-                    return true;
-                } else if (moveTo[0] - currentPos[0] <= 2 
-                        && moveTo[0] - currentPos[0] > 0 
-                        && black) {
-                    return true;
+        if (checkIfPathClear(currentPos, moveTo, 0)) {
+            if (canCharge(currentPos)) {
+                if (moveTo[1] == currentPos[1]) {
+                    if (moveTo[0] - currentPos[0] >= -2 
+                            && moveTo[0] - currentPos[0] < 0 
+                            && !black) {
+                        return true;
+                    } else if (moveTo[0] - currentPos[0] <= 2 
+                            && moveTo[0] - currentPos[0] > 0 
+                            && black) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
             } else {
-                return false;
+                if (moveTo[1] == currentPos[1]) {
+                    if (moveTo[0] - currentPos[0] == -1 && !black) {
+                        return true;
+                    } else if (moveTo[0] - currentPos[0] == 1 && black) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
             }
         } else {
-            if (moveTo[1] == currentPos[1]) {
-                if (moveTo[0] - currentPos[0] == -1 && !black) {
-                    return true;
-                } else if (moveTo[0] - currentPos[0] == 1 && black) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+            return false;
         }
     }
-    
+
     /**
      * Checks if piece can charge.
      * @param currentPos current position of piece
@@ -110,5 +114,12 @@ public class Pawn extends Piece {
         } else {
             return false;
         }
+    }
+
+    protected boolean checkIfPathClear(int[] currentPos, int[] moveTo, int xy) {  
+        int stepCount;
+        stepCount = moveTo[xy] - currentPos[xy];
+        System.out.println(stepCount + " XY: " + xy);
+        return checkInDirectionStraight(stepCount, getVector(stepCount), xy, currentPos, false);
     }
 }

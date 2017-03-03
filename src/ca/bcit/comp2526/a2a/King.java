@@ -66,7 +66,6 @@ public class King extends Piece {
     public boolean isValidMove(String currentPosId, String moveToId) {
         int[] currentPos = getX_Y(currentPosId);
         int[] moveTo = getX_Y(moveToId);
-        System.out.println(Math.abs(moveTo[0] - currentPos[0]) + ", " + Math.abs(moveTo[1] - currentPos[1]));
         if ((Math.abs(moveTo[0] - currentPos[0]) <= 1)
                 && (Math.abs(moveTo[1] - currentPos[1]) <= 1)) {
             return true;

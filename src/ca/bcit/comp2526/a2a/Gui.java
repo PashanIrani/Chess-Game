@@ -11,6 +11,9 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 /**
@@ -34,7 +37,11 @@ public class Gui extends JFrame {
     /* the colors */
     private Color color1 = Color.decode("#8f0300"); //black
     private Color color2 = Color.decode("#fad481"); //white
-
+    JMenuBar menuBar;
+    JMenu menu;
+    JMenuItem saveButton;
+    JMenuItem loadButton;
+    JMenuItem resetButton;
     /**
      * Constructor for GUI.
      * @param string window title
@@ -54,6 +61,23 @@ public class Gui extends JFrame {
         add(this.board, BorderLayout.CENTER);
         squares = board.getSqaure();
         gridButtons = new JButton[squares.length][squares.length];
+        constructMenu();
+    }
+
+    private void constructMenu() {
+        menuBar = new JMenuBar();
+        menu = new JMenu("File");
+        saveButton = new JMenuItem("Save");
+        loadButton = new JMenuItem("Load");
+        resetButton = new JMenuItem("Reset Board");
+        saveButton.addActionListener(new ButtonClicked("save"));
+        loadButton.addActionListener(new ButtonClicked("load"));
+        resetButton.addActionListener(new ButtonClicked("reset"));
+        menu.add(saveButton);
+        menu.add(loadButton);
+        menu.add(resetButton);
+        menuBar.add(menu);
+        setJMenuBar(menuBar);
     }
 
     /**
@@ -128,7 +152,7 @@ public class Gui extends JFrame {
             return; //do nothing
         }
     }
-    
+
     /**
      * Updates Title of window.
      * @param string the string to update it to
@@ -136,7 +160,7 @@ public class Gui extends JFrame {
     public void updateTitle(String string) {
         setTitle(defualtTitle + string);
     }
-    
+
     /**
      * Gets location and trigger board to perform logic operation.
      * @author Pashan Irani
@@ -158,8 +182,20 @@ public class Gui extends JFrame {
          * Runs at every click, and sends clicked square id to doGameLogic method in board
          * which deals with logic.
          */
-        public void actionPerformed(final ActionEvent event) {      
-            gameBoard.doGameLogic(id);
+        public void actionPerformed(final ActionEvent event) {  
+
+            if (id.equalsIgnoreCase("save")) {
+                System.out.println("s: " + id);
+            } else if (id.equalsIgnoreCase("load")) {
+                System.out.println("l: " + id);
+            } else if (id.equalsIgnoreCase("reset")) {
+                System.out.println("r: " + id);
+            } else {
+                System.out.println(id);
+                gameBoard.doGameLogic(id);
+            }
         }
     }
+
+
 }
