@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -186,10 +188,27 @@ public class Gui extends JFrame {
 
             if (id.equalsIgnoreCase("save")) {
                 System.out.println("s: " + id);
+                try {
+                    gameBoard.saveGame();
+                }catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } 
             } else if (id.equalsIgnoreCase("load")) {
-                System.out.println("l: " + id);
+                try {
+                    gameBoard.loadGame();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             } else if (id.equalsIgnoreCase("reset")) {
-                System.out.println("r: " + id);
+                gameBoard.resetBoard();
             } else {
                 System.out.println(id);
                 gameBoard.doGameLogic(id);

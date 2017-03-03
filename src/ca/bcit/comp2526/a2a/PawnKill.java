@@ -7,18 +7,18 @@ import java.io.File;
  * @author Pashan Irani
  * @version 1.0
  */
-public class Pawn extends Piece {
+public abstract class PawnKill extends Piece {
 
 
     private String image;
-    private boolean black;
+    private static boolean black;
     private int charge = 1;
-    
+
     /**
      * Constructs Piece and sets Image based on color.
      * @param black true if piece is black.
      */
-    public Pawn(final boolean black) {
+    public PawnKill(final boolean black) {
         this.black = black;
         if (black) {
             image = "images" + File.separator + "bP.png";
@@ -64,43 +64,25 @@ public class Pawn extends Piece {
      * @param currentPosId current position
      * @param moveToId move to position
      */
-    public boolean isValidMove(String currentPosId, String moveToId) {
+    public static boolean isValidKill(String currentPosId, String moveToId, String black) {
         int[] currentPos = getX_Y(currentPosId);
         int[] moveTo = getX_Y(moveToId);
-        if (checkIfPathClear(currentPos, moveTo, 0)) {
-            if (canCharge(currentPos)) {
-                if (moveTo[1] == currentPos[1]) {
-                    if (moveTo[0] - currentPos[0] >= -2 
-                            && moveTo[0] - currentPos[0] < 0 
-                            && !black) {
-                        return true;
-                    } else if (moveTo[0] - currentPos[0] <= 2 
-                            && moveTo[0] - currentPos[0] > 0 
-                            && black) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
+
+        if (moveTo[1] != currentPos[1] && Math.abs(moveTo[1] - currentPos[1]) == 1) {
+            System.out.println("{PPAWWWN KILLL: " + (moveTo[0] - currentPos[0]));
+            if (black.equalsIgnoreCase("black") && (moveTo[0] - currentPos[0]) == 1) {
+                return true;
+            } else if (black.equals("white") && moveTo[0] - currentPos[0] == -1 ) {
+                return true;
             } else {
-                if (moveTo[1] == currentPos[1]) {
-                    if (moveTo[0] - currentPos[0] == -1 && !black) {
-                        return true;
-                    } else if (moveTo[0] - currentPos[0] == 1 && black) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
+                return false;
             }
         } else {
             return false;
         }
     }
+
+
 
     /**
      * Checks if piece can charge.

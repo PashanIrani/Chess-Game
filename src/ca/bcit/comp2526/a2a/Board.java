@@ -1,5 +1,11 @@
 package ca.bcit.comp2526.a2a;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * Contains the major pieces of the game, and deals with game logic.
  * @author Pashan Irani
@@ -18,77 +24,20 @@ public class Board {
     private String prevColor; //previous clicked color, black if true
     private Piece prevPiece; // last clicked piece
     private Gui gui; 
-    private String selectColor = "#7FFF00"; //color to show current selected piece
+    private String selectColor = "#cdd26b"; //color to show current selected piece
     private boolean whiteTurn = true;
     private String whiteTurnString = "White TURN";
     private String blackTurnString = "Black TURN";
-    private boolean enableTurns = false;
+    private boolean enableTurns = true;
+    FileOutputStream fileOut;
+    ObjectOutputStream out;
+    ObjectInputStream in;
+
     /**
      * Constructor for Board.
      */
     public Board() {
-        squares = new Square[GRIDSIZE][GRIDSIZE];
-
-        //fills square array
-        for (int i = 0; i < GRIDSIZE; i++) {
-            for (int j = 0; j < GRIDSIZE; j++) {
-                squares[i][j] = new Square();
-            }
-        }
-
-        /*
-         * b = black
-         * w = white
-         * R = Rook
-         * H = Knight (Horse)
-         * B = Bishop
-         * K = King
-         * Q = Queen
-         * P = Pawn
-         *
-         * 
-         *BLACK PIECEs DEFAULT LOCATIONS
-         */
-        squares[0][0].setPiece("bR");
-        squares[0][1].setPiece("bH");
-        squares[0][2].setPiece("bB");
-        squares[0][3].setPiece("bK");
-        squares[0][4].setPiece("bQ");
-        squares[0][5].setPiece("bB");
-        squares[0][6].setPiece("bH");
-        squares[0][7].setPiece("bR");
-
-        squares[1][0].setPiece("bP");
-        squares[1][1].setPiece("bP");
-        squares[1][2].setPiece("bP");
-        squares[1][3].setPiece("bP");
-        squares[1][4].setPiece("bP");
-        squares[1][5].setPiece("bP");
-        squares[1][6].setPiece("bP");
-        squares[1][7].setPiece("bP");
-
-        //WHITE PIECE's DEFAULT LOCATIONS
-        squares[6][0].setPiece("wP");
-        squares[6][1].setPiece("wP");
-        squares[6][2].setPiece("wP");
-        squares[6][3].setPiece("wP");
-        squares[6][4].setPiece("wP");
-        squares[6][5].setPiece("wP");
-        squares[6][6].setPiece("wP");
-        squares[6][7].setPiece("wP");
-
-        squares[7][0].setPiece("wR");
-        squares[7][1].setPiece("wH");
-        squares[7][2].setPiece("wB");
-        squares[7][3].setPiece("wK");
-        squares[7][4].setPiece("wQ");
-        squares[7][5].setPiece("wB");
-        squares[7][6].setPiece("wH");
-        squares[7][7].setPiece("wR");
-
-        gui = new Gui("Chess Game - Pashan Irani A00997355", 800, 800, this);
-        gui.refreshWindow();
-        setTurnTitle();
+        resetBoard();
     }
 
     /**
@@ -176,9 +125,11 @@ public class Board {
                 pickedUpPiece = null;
                 refresh();
             } else if (peiceInSqaure == "") { // clicked on empty space
-                placePiece(id);
+                placePiece(id, false);
             } else if (prevPiece.getColor() == clickedColor) { // clicked on same color
                 pickUpPeice(points[0], points[1], id);
+            } else if (prevPiece.getColor() != clickedColor) { // clicked on enemy color
+                placePiece(id, true);
             }
         } else { //has no piece in hand
             if (peiceInSqaure != "") { //and clicked on non-empty space          
@@ -188,17 +139,33 @@ public class Board {
     }
 
 
-    private  void placePiece(String clickedLocation) {
-        if (prevPiece.isValidMove(prevId, clickedLocation)) {
-            if (enableTurns) {
-                whiteTurn = !whiteTurn;
+    private  void placePiece(String clickedLocation, boolean isKill) {
+        if (!isKill || !(prevPiece.getPiece().matches(".P"))) {
+            if (prevPiece.isValidMove(prevId, clickedLocation)) {
+                System.out.println("MOVE!!!!!!!!!!!!!!!!!!!!!!!");
+                if (enableTurns) {
+                    whiteTurn = !whiteTurn;
+                }
+                setTurnTitle();
+                System.out.println("placed Piece");
+                setPiece(clickedLocation, pickedUpPiece);
+                setPiece(prevId, "");
+                hasPieceInHand = false;
+                refresh();
             }
-            setTurnTitle();
-            System.out.println("placed Piece");
-            setPiece(clickedLocation, pickedUpPiece);
-            setPiece(prevId, "");
-            hasPieceInHand = false;
-            refresh();
+        } else {
+            if (PawnKill.isValidKill(prevId, clickedLocation, prevPiece.getColor())) {
+                System.out.println("MOVE!!!!!!!!!!!!!!!!!!!!!!!");
+                if (enableTurns) {
+                    whiteTurn = !whiteTurn;
+                }
+                setTurnTitle();
+                System.out.println("placed Piece");
+                setPiece(clickedLocation, pickedUpPiece);
+                setPiece(prevId, "");
+                hasPieceInHand = false;
+                refresh();
+            }
         }
     }
 
@@ -233,11 +200,116 @@ public class Board {
      * Refreshed Window, with peice's new locations.
      */
     public void refresh() {
+        setUpSquares(false);
         gui.drawSquares();
         gui.refreshWindow();
+        setTurnTitle();
     }
-    
-    public void resetBoard(){
-        
+
+    /**
+     * Resets Board.
+     */
+    public void resetBoard() {
+        squares = new Square[GRIDSIZE][GRIDSIZE];
+
+        //fills square array
+        for (int i = 0; i < GRIDSIZE; i++) {
+            for (int j = 0; j < GRIDSIZE; j++) {
+                squares[i][j] = new Square();
+            }
+        }
+
+        /*
+         * b = black
+         * w = white
+         * R = Rook
+         * H = Knight (Horse)
+         * B = Bishop
+         * K = King
+         * Q = Queen
+         * P = Pawn
+         *
+         * 
+         *BLACK PIECEs DEFAULT LOCATIONS
+         */
+        squares[0][0].setPiece("bR");
+        squares[0][1].setPiece("bH");
+        squares[0][2].setPiece("bB");
+        squares[0][3].setPiece("bK");
+        squares[0][4].setPiece("bQ");
+        squares[0][5].setPiece("bB");
+        squares[0][6].setPiece("bH");
+        squares[0][7].setPiece("bR");
+
+        squares[1][0].setPiece("bP");
+        squares[1][1].setPiece("bP");
+        squares[1][2].setPiece("bP");
+        squares[1][3].setPiece("bP");
+        squares[1][4].setPiece("bP");
+        squares[1][5].setPiece("bP");
+        squares[1][6].setPiece("bP");
+        squares[1][7].setPiece("bP");
+
+        //WHITE PIECE's DEFAULT LOCATIONS
+        squares[6][0].setPiece("wP");
+        squares[6][1].setPiece("wP");
+        squares[6][2].setPiece("wP");
+        squares[6][3].setPiece("wP");
+        squares[6][4].setPiece("wP");
+        squares[6][5].setPiece("wP");
+        squares[6][6].setPiece("wP");
+        squares[6][7].setPiece("wP");
+
+        squares[7][0].setPiece("wR");
+        squares[7][1].setPiece("wH");
+        squares[7][2].setPiece("wB");
+        squares[7][3].setPiece("wK");
+        squares[7][4].setPiece("wQ");
+        squares[7][5].setPiece("wB");
+        squares[7][6].setPiece("wH");
+        squares[7][7].setPiece("wR");
+
+        gui = new Gui("Chess Game - Pashan Irani A00997355", 800, 800, this);
+        setTurnTitle();
+        refresh();
+    }
+
+    /**
+     * Saves Game.
+     * @throws IOException If the is a IOException
+     */
+    public void saveGame() throws IOException {
+        fileOut = new FileOutputStream("test.gam");
+        out = new ObjectOutputStream(fileOut);
+        for (int i = 0; i < GRIDSIZE; i++) {
+            for (int j = 0; j < GRIDSIZE; j++) {
+                out.writeObject(squares[i][j]);
+            }
+        }
+        out.writeBoolean(whiteTurn);
+        out.close();
+        fileOut.close();
+        System.out.println("saved Game");
+    }
+
+    /**
+     * Loads game.
+     * @throws IOException 
+     * @throws ClassNotFoundException 
+     */
+    public void loadGame() throws IOException, ClassNotFoundException {
+        in = new ObjectInputStream(new FileInputStream("test.gam"));  
+
+        for (int i = 0; i < GRIDSIZE; i++) {
+            for (int j = 0; j < GRIDSIZE; j++) {
+                squares[i][j] = (Square) in.readObject();
+            }
+        }
+        whiteTurn = in.readBoolean();
+        System.out.println(squares[0][0].getPiece());
+        in.close();
+        System.out.println("loaded Game");
+        refresh();
+
     }
 }

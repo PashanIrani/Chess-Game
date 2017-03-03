@@ -1,11 +1,13 @@
 package ca.bcit.comp2526.a2a;
 
+import java.io.Serializable;
+
 /**
  * Abstract class for each piece.
  * @author Pashan Irani
  * @version 1.0
  */
-public abstract class Piece {
+public abstract class Piece implements Serializable{
 
     public abstract String getPiece();
 
@@ -34,7 +36,7 @@ public abstract class Piece {
      * @param id concatenated id
      * @return x and y in an array of length 2
      */
-    protected int[] getX_Y(final String id) {
+    protected static int[] getX_Y(final String id) {
         int[] points = new int[2];
         points[0] = Integer.parseInt("" + id.charAt(0)) - 1;
         points[1] = Integer.parseInt("" + id.charAt(1)) - 1;
@@ -56,7 +58,7 @@ public abstract class Piece {
         int yaxis;
         if (diagnal) {
             if (direction != 0) {
-                for (int i = 1; i <= numOfSquares; i++) {
+                for (int i = 1; i < numOfSquares; i++) {
                     xaxis = currentPos[0] + (i * vector);
                     yaxis = currentPos[1] + (i * vector);
                     System.out.println(i + "||||| checking square; " 
@@ -69,7 +71,7 @@ public abstract class Piece {
                     }
                 }
             } else {
-                for (int i = 1; i <= numOfSquares; i++) {
+                for (int i = 1; i < numOfSquares; i++) {
                     xaxis = currentPos[0] + (i * vector);
                     yaxis = currentPos[1] - (i * vector);
                     System.out.println(i + "||||| checking square; " 
@@ -83,7 +85,7 @@ public abstract class Piece {
                 }
             }
         } else if (direction == 0 && !diagnal) {
-            for (int i = 1; i <= numOfSquares; i++) {
+            for (int i = 1; i < numOfSquares; i++) {
                 xaxis = currentPos[0] + (i * vector);
                 yaxis = currentPos[1];
                 System.out.println(i + "||||| checking square; " 
@@ -96,7 +98,7 @@ public abstract class Piece {
                 }
             }
         } else if (direction == 1 && !diagnal) {
-            for (int i = 1; i <= numOfSquares; i++) {
+            for (int i = 1; i < numOfSquares; i++) {
                 xaxis = currentPos[0];
                 yaxis = currentPos[1] + (i * vector);
                 System.out.println(i + "||||| checking square; " 

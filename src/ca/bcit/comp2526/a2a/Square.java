@@ -1,12 +1,14 @@
 package ca.bcit.comp2526.a2a;
 
+import java.io.Serializable;
+
 /**
  * Squares on the board. Has a color (black or white), a piece, and has 
  * necessary methods to keep track of each piece.
  * @author Pashan Irani
  * @version 1.0
  */
-public class Square {
+public class Square implements Serializable {
     private Piece piece;
     private boolean isBlack;
     
