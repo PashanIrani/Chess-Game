@@ -6,16 +6,17 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -44,6 +45,11 @@ public class Gui extends JFrame {
     JMenuItem saveButton;
     JMenuItem loadButton;
     JMenuItem resetButton;
+
+
+    JFileChooser fileChose;
+
+
     /**
      * Constructor for GUI.
      * @param string window title
@@ -63,6 +69,7 @@ public class Gui extends JFrame {
         add(this.board, BorderLayout.CENTER);
         squares = board.getSqaure();
         gridButtons = new JButton[squares.length][squares.length];
+
         constructMenu();
     }
 
@@ -80,6 +87,7 @@ public class Gui extends JFrame {
         menu.add(resetButton);
         menuBar.add(menu);
         setJMenuBar(menuBar);
+        fileChose = new JFileChooser();
     }
 
     /**
@@ -189,24 +197,21 @@ public class Gui extends JFrame {
             if (id.equalsIgnoreCase("save")) {
                 System.out.println("s: " + id);
                 try {
-                    gameBoard.saveGame();
-                }catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    choseFile("save");
+                    gameBoard.saveGame(addExtention(".gam"));
+                } catch (IOException exp) {
+                    exp.printStackTrace();
                 } 
             } else if (id.equalsIgnoreCase("load")) {
+                choseFile("load");
                 try {
-                    gameBoard.loadGame();
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    gameBoard.loadGame(fileChose.getSelectedFile() + "");
+                } catch (ClassNotFoundException exp) {
+                    JOptionPane.showMessageDialog(board, "Corrupted File");
+                } catch (IOException exp) {
+                    JOptionPane.showMessageDialog(board, "No File Found");
                 }
+
             } else if (id.equalsIgnoreCase("reset")) {
                 gameBoard.resetBoard();
             } else {
@@ -216,5 +221,34 @@ public class Gui extends JFrame {
         }
     }
 
+    private void choseFile(String message) {
+        if (message.equalsIgnoreCase("save")) {
+            fileChose.showSaveDialog(this);
+        } else {
+            fileChose.showOpenDialog(this);
+        }
+    }
+
+    private String addExtention(String extention) {
+        String fileName = fileChose.getSelectedFile() + "";
+        int fileNameLength = fileName.length();
+        int extentionLength = extention.length();
+        boolean addExtention = false;
+        int jfor = 0;
+        for (int i = fileNameLength - extentionLength; i < fileNameLength; i++) {
+            System.out.println(fileName.charAt(i) + "-------" + extention.charAt(jfor));
+            if (fileName.charAt(i) != extention.charAt(jfor)) {
+                addExtention = true;
+                break;
+            }
+            jfor++;
+        }
+        
+        if (addExtention) {
+            return fileName + extention;
+        } else {
+            return fileName;
+        }
+    }
 
 }

@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Bishop piece class.
  * @author Pashan Irani
@@ -20,9 +18,9 @@ public class Bishop extends Piece {
     public Bishop(final boolean black) {
         this.black = black;
         if (black) {
-            image = "images" + File.separator + "bB.png";
+            image = this.getClass().getResource("/images/bB.png").getPath();
         } else {
-            image = "images" + File.separator + "wB.png";
+            image = this.getClass().getResource("/images/wB.png").getPath();
         }
     }
 

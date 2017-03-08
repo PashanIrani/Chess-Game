@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Pawn piece class.
  * @author Pashan Irani
@@ -21,9 +19,9 @@ public class Pawn extends Piece {
     public Pawn(final boolean black) {
         this.black = black;
         if (black) {
-            image = "images" + File.separator + "bP.png";
+            image = this.getClass().getResource("/images/bP.png").getPath();
         } else {
-            image = "images" + File.separator + "wP.png";
+            image = this.getClass().getResource("/images/wP.png").getPath();
         }
     }
 

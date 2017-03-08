@@ -1,6 +1,6 @@
 package ca.bcit.comp2526.a2a;
 
-public abstract class Player {
+public class Player {
     protected String color;
     
     public Player(String color) {

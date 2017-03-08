@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * King piece class.
  * @author Pashan Irani
@@ -20,9 +18,9 @@ public class King extends Piece {
     public King(final boolean black) {
         this.black = black;
         if (black) {
-            image = "images" + File.separator + "bK.png";
+            image = this.getClass().getResource("/images/bK.png").getPath();
         } else {
-            image = "images" + File.separator + "wK.png";
+            image = this.getClass().getResource("/images/wK.png").getPath();
         }
     }
 

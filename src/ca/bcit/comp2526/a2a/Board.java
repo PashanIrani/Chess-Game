@@ -32,7 +32,8 @@ public class Board {
     FileOutputStream fileOut;
     ObjectOutputStream out;
     ObjectInputStream in;
-
+    String prevSavedFile;
+    
     /**
      * Constructor for Board.
      */
@@ -278,8 +279,8 @@ public class Board {
      * Saves Game.
      * @throws IOException If the is a IOException
      */
-    public void saveGame() throws IOException {
-        fileOut = new FileOutputStream("test.gam");
+    public void saveGame(String fileName) throws IOException {
+        fileOut = new FileOutputStream(fileName);
         out = new ObjectOutputStream(fileOut);
         for (int i = 0; i < GRIDSIZE; i++) {
             for (int j = 0; j < GRIDSIZE; j++) {
@@ -297,8 +298,8 @@ public class Board {
      * @throws IOException 
      * @throws ClassNotFoundException 
      */
-    public void loadGame() throws IOException, ClassNotFoundException {
-        in = new ObjectInputStream(new FileInputStream("test.gam"));  
+    public void loadGame(String fileName) throws IOException, ClassNotFoundException {
+        in = new ObjectInputStream(new FileInputStream(fileName));  
 
         for (int i = 0; i < GRIDSIZE; i++) {
             for (int j = 0; j < GRIDSIZE; j++) {

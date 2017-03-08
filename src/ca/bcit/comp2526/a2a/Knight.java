@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Knight piece class.
  * @author Pashan Irani
@@ -19,9 +17,9 @@ public class Knight extends Piece {
     public Knight(final boolean black) {
         this.black = black;
         if (black) {
-            image = "images" + File.separator + "bH.png";
+            image = this.getClass().getResource("/images/bH.png").getPath();
         } else {
-            image = "images" + File.separator + "wH.png";
+            image = this.getClass().getResource("/images/wH.png").getPath();
         }
     }
 

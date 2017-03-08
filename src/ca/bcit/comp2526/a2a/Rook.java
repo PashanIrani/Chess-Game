@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Rook piece class.
  * @author Pashan Irani
@@ -19,10 +17,12 @@ public class Rook extends Piece {
      */
     public Rook(final boolean black) {
         this.black = black;
+
+        System.out.println(this.getClass().getResource("/images/bR.png").getPath());
         if (black) {
-            image = "images" + File.separator + "bR.png";
+            image = this.getClass().getResource("/images/bR.png").getPath();
         } else {
-            image = "images" + File.separator + "wR.png";
+            image = this.getClass().getResource("/images/wR.png").getPath();
         }
     }
 
@@ -87,7 +87,7 @@ public class Rook extends Piece {
         return checkInDirectionStraight(stepCount, getVector(stepCount), xy, currentPos, false);
     }
 
-    
 
-    
+
+
 }

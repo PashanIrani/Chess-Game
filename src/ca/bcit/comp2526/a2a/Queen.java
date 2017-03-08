@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Queen piece class.
  * @author Pashan Irani
@@ -20,9 +18,9 @@ public class Queen extends Piece {
     public Queen(final boolean black) {
         this.black = black;
         if (black) {
-            image = "images" + File.separator + "bQ.png";
+            image = this.getClass().getResource("/images/bQ.png").getPath();
         } else {
-            image = "images" + File.separator + "wQ.png";
+            image = this.getClass().getResource("/images/wQ.png").getPath();
         }
     }
 

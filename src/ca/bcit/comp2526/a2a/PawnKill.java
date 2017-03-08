@@ -1,7 +1,5 @@
 package ca.bcit.comp2526.a2a;
 
-import java.io.File;
-
 /**
  * Pawn piece class.
  * @author Pashan Irani
@@ -20,11 +18,6 @@ public abstract class PawnKill extends Piece {
      */
     public PawnKill(final boolean black) {
         this.black = black;
-        if (black) {
-            image = "images" + File.separator + "bP.png";
-        } else {
-            image = "images" + File.separator + "wP.png";
-        }
     }
 
     /**
