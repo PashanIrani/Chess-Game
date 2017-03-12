@@ -7,18 +7,14 @@ package ca.bcit.comp2526.a2a;
  */
 public abstract class PawnKill extends Piece {
 
-
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
     private String image;
     private static boolean black;
-    private int charge = 1;
 
-    /**
-     * Constructs Piece and sets Image based on color.
-     * @param black true if piece is black.
-     */
-    public PawnKill(final boolean black) {
-        this.black = black;
-    }
+    
 
     /**
      * returns piece.
@@ -75,23 +71,13 @@ public abstract class PawnKill extends Piece {
         }
     }
 
-
-
     /**
-     * Checks if piece can charge.
-     * @param currentPos current position of piece
-     * @return if piece can change
+     * Checks if Path is clear.
+     * @param currentPos first position
+     * @param moveTo moveto position
+     * @param xy checks direction
+     * @return if path is clear
      */
-    private boolean canCharge(int[] currentPos) {
-        if (currentPos[0] == 6 && !black) {
-            return true; 
-        } else if (currentPos[0] == 1 && black) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     protected boolean checkIfPathClear(int[] currentPos, int[] moveTo, int xy) {  
         int stepCount;
         stepCount = moveTo[xy] - currentPos[xy];

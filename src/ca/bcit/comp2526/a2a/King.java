@@ -6,7 +6,10 @@ package ca.bcit.comp2526.a2a;
  * @version 1.0
  */
 public class King extends Piece {
-
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
 
     private String image;
     private boolean black;

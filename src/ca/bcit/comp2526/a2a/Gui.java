@@ -67,12 +67,15 @@ public class Gui extends JFrame {
         setLayout(new BorderLayout());
         this.board.setLayout(new GridLayout(8,8));
         add(this.board, BorderLayout.CENTER);
-        squares = board.getSqaure();
+        squares = Board.getSqaure();
         gridButtons = new JButton[squares.length][squares.length];
 
         constructMenu();
     }
-
+    
+    /**
+     * Constructs Menu.
+     */
     private void constructMenu() {
         menuBar = new JMenuBar();
         menu = new JMenu("File");
@@ -220,7 +223,11 @@ public class Gui extends JFrame {
             }
         }
     }
-
+    
+    /**
+     * Opens chose file menu.
+     * @param message display message
+     */
     private void choseFile(String message) {
         if (message.equalsIgnoreCase("save")) {
             fileChose.showSaveDialog(this);
@@ -228,7 +235,12 @@ public class Gui extends JFrame {
             fileChose.showOpenDialog(this);
         }
     }
-
+    
+    /**
+     * adds extension of file name.
+     * @param extention the extension
+     * @return new name
+     */
     private String addExtention(String extention) {
         String fileName = fileChose.getSelectedFile() + "";
         int fileNameLength = fileName.length();

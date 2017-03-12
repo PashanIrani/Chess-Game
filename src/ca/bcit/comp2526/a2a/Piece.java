@@ -7,8 +7,12 @@ import java.io.Serializable;
  * @author Pashan Irani
  * @version 1.0
  */
-public abstract class Piece implements Serializable{
-
+public abstract class Piece implements Serializable {
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
+    
     public abstract String getPiece();
 
     public abstract String getImagePath();
@@ -19,6 +23,7 @@ public abstract class Piece implements Serializable{
 
 
     Square[][] squares = Board.getSqaure();
+    
     /**
      * Checks if two pieces are equal.
      * @return pieces are equal

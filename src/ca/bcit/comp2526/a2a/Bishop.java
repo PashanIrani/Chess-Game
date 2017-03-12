@@ -5,9 +5,13 @@ package ca.bcit.comp2526.a2a;
  * @author Pashan Irani
  * @version 1.0
  */
-public class Bishop extends Piece {
+public class Bishop extends Piece  {
 
 
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
     private String image;
     private boolean black;
 
@@ -72,7 +76,12 @@ public class Bishop extends Piece {
         }
     }
 
-    
+    /**
+     * Checks if Path is clear.
+     * @param currentPos first position
+     * @param moveTo moveto position
+     * @return if path is clear
+     */
     protected boolean checkIfPathClear(int[] currentPos, int[] moveTo) {
         int stepCountX = moveTo[0] - currentPos[0];
         int stepCountY = moveTo[1] - currentPos[1];

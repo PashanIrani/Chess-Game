@@ -7,10 +7,12 @@ package ca.bcit.comp2526.a2a;
  */
 public class Pawn extends Piece {
 
-
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
     private String image;
     private boolean black;
-    private int charge = 1;
     
     /**
      * Constructs Piece and sets Image based on color.
@@ -114,7 +116,14 @@ public class Pawn extends Piece {
             return false;
         }
     }
-
+    
+    /**
+     * Checks if Path is clear.
+     * @param currentPos first position
+     * @param moveTo moveto position
+     * @param xy checks direction
+     * @return if path is clear
+     */
     protected boolean checkIfPathClear(int[] currentPos, int[] moveTo, int xy) {  
         int stepCount;
         stepCount = moveTo[xy] - currentPos[xy];

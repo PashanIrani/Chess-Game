@@ -9,6 +9,11 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class Square implements Serializable {
+    
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
     private Piece piece;
     private boolean isBlack;
     

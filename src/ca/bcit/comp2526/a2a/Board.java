@@ -21,7 +21,6 @@ public class Board {
     private String pickedUpPiece = null; //current picked up piece
     private boolean hasPieceInHand = false; //if player is currently is holding a piece
     private String prevId = ""; //location of last clicked square
-    private String prevColor; //previous clicked color, black if true
     private Piece prevPiece; // last clicked piece
     private Gui gui; 
     private String selectColor = "#cdd26b"; //color to show current selected piece
@@ -29,10 +28,9 @@ public class Board {
     private String whiteTurnString = "White TURN";
     private String blackTurnString = "Black TURN";
     private boolean enableTurns = true;
-    FileOutputStream fileOut;
-    ObjectOutputStream out;
-    ObjectInputStream in;
-    String prevSavedFile;
+    private FileOutputStream fileOut;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
     
     /**
      * Constructor for Board.
@@ -186,7 +184,7 @@ public class Board {
                 prevId = clickedLocation;
                 prevPiece = getSquarePiece(clickedLocation);
                 pickedUpPiece = prevPiece.getPiece();
-                prevColor = prevPiece.getColor();
+                prevPiece.getColor();
                 System.out.println("picked up" + pickedUpPiece);
                 refresh();
                 gui.buttonColorChange(selectColor, xaxis, yaxis);
@@ -295,8 +293,8 @@ public class Board {
 
     /**
      * Loads game.
-     * @throws IOException 
-     * @throws ClassNotFoundException 
+     * @throws IOException an exception
+     * @throws ClassNotFoundException an exception
      */
     public void loadGame(String fileName) throws IOException, ClassNotFoundException {
         in = new ObjectInputStream(new FileInputStream(fileName));  

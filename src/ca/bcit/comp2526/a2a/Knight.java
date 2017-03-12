@@ -7,6 +7,10 @@ package ca.bcit.comp2526.a2a;
  */
 public class Knight extends Piece {
 
+    /**
+     * Serial ID.
+     */
+    private static final long serialVersionUID = 1L;
     private String image;
     private boolean black;
 
